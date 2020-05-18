@@ -28,13 +28,7 @@ const validationSchema = Yup.object().shape({
 export default function Curso() {
     const { success, agregarCurso, error, is_logged, registroExitoso } = useContext(store);
     const history = useHistory();
-    //const history = useHistory();
-    /* useEffect(
-         () => {
-             setToggle(!toggle);
-         },
-         [state]
-       );*/
+    
 
 
     useEffect(() => {
