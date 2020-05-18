@@ -1,0 +1,27 @@
+/* #f7296e */
+
+nav {
+ background-color: #f7296e;
+ 
+}
+
+.navbar.navbar-expand-md > .collapse.navbar-collapse li  a {
+    color: white;
+}
+
+
+.dropdown-menu.dropdown-menu-right.show  > .dropdown-item > .nav-link{
+    color: rgb(135, 122, 146);
+}
+
+
+form {
+    width: 600px;
+    margin-top: 5rem;
+    padding: 10rem;
+    padding: 2rem;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+}
+

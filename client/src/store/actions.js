@@ -1,0 +1,19 @@
+export const CREAR_WALLET = 'CREAR_WALLET';
+
+export const AUTENTICACION = 'AUTENTICACION';
+
+export const ERROR = 'ERROR';
+
+export const IS_LOGGED = 'IS_LOGGED';
+
+export const AGREGAR_CURSO = 'AGREGAR_CURSO';
+
+export const SALIR = 'SALIR'; 
+
+export const REGISTRO_EXITOSO = 'REGISTRO_EXITOSO'; 
+
+export const CONSULTAR_CURSOS = 'CONSULTAR_CURSOS'; 
+
+export const CONSULTAR_INSCRITOS = 'CONSULTAR_INSCRITOS';
+
+export const CONSULTAR_CERTIFICADOS = 'CONSULTAR_CERTIFICADOS';
