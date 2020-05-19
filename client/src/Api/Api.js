@@ -125,6 +125,8 @@ export const consultarCertificados = async ( address, privateKey) => {
         console.log(response.data);
 
         return  response.data.map(x => {
+            console.log(x[1]);
+            x[1].file_hash = "https://ipfs.io/ipfs/"+x[1].file_hash
             return x[1];
         });
 

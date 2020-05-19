@@ -8,7 +8,7 @@ const Styles = styled.div`
   padding: 1rem;
   table {
     border-spacing: 0;
-    border: 1px solid black;
+    border: 2px solid #ccc;
     width: 100%;
     tr {
       :last-child {
@@ -21,9 +21,9 @@ const Styles = styled.div`
     td {
       margin: 0;
       padding: 0.5rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
-      border-top: 1px solid black;
+      border-bottom: 1px solid #ccc;
+      border-right: 1px solid #ccc;
+      border-top: 1px solid #ccc;
       :last-child {
         border-right: 0;
       }
@@ -79,12 +79,13 @@ export default function TableComponent({ columns, data }) {
         direction: "column",
         justifyContent: "center",
         alignItems: "center",
-        width: "100%"
+        width: "100%",
+
 
       }}>
       <Styles>
-        <div>
-          <Table {...getTableProps()}>
+        <div >
+          <Table  {...getTableProps()}>
             <thead>
               {headerGroups.map(headerGroup => (
                 <tr {...headerGroup.getHeaderGroupProps()}>
@@ -100,9 +101,6 @@ export default function TableComponent({ columns, data }) {
                 return (
                   <tr {...row.getRowProps()}>
                     {row.cells.map(cell => {
-
-                      console.log(cell.render('Cell'))
-
                       return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                     })}
                   </tr>

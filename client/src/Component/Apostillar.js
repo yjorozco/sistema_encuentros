@@ -14,8 +14,10 @@ const validationSchema = Yup.object().shape({
     //      .required("nombre requerido"),
     Descripcion: Yup.string()
         .required("Fecha requerido"),
-    FileData: Yup.object()
-    .required("Archivo Requerido")
+    FileData: Yup.mixed().required('A file is required')
+        .test('fileFormat', 'PDF only', (value) => {
+            console.log(value); return value && ['application/pdf'].includes(value.type);
+        }),
 });
 
 
@@ -24,11 +26,11 @@ export default function Apostillar() {
 
 
     const history = useHistory();
-   
+
 
     useEffect(() => {
         if (localStorage.getItem('is_logged') !== "on") {
-             history.push("/");
+            history.push("/");
         }
     }, [localStorage.getItem('is_logged')])
 
@@ -41,14 +43,12 @@ export default function Apostillar() {
         validationSchema,
         onSubmit: async (values, { resetForm }) => {
 
-
-
             let certificado = new FormData();
-            certificado.append('fileData', values.FileData )
-            certificado.append('descripcion', values.Descripcion )
-            certificado.append('address', localStorage.getItem('address') )
+            certificado.append('fileData', values.FileData)
+            certificado.append('descripcion', values.Descripcion)
+            certificado.append('address', localStorage.getItem('address'))
             certificado.append('privateKey', localStorage.getItem('password'))
-            
+
 
             await agregarCertificado(certificado);
 
@@ -93,7 +93,7 @@ export default function Apostillar() {
                                 /*setFile(JSON.stringify(event.currentTarget.files[0]));*/
                                 //formik.handleChange(event);
                             }}
-                             />
+                        />
                         <FormFeedback invalid={"true"}>{formik.errors.FileData}</FormFeedback>
                     </FormGroup>
                     <Button type="submit">Confirmar</Button>
