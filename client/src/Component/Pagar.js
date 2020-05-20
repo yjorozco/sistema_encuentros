@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useFormik } from 'formik';
+import formik, { useFormik } from 'formik';
 import { Button, Form, FormGroup, Label, Input, FormFeedback, Row, Table } from 'reactstrap';
 import * as Yup from 'yup';
 import { store } from '../context/ProductProvider';
@@ -7,7 +7,7 @@ import AlertError from './AlertError';
 import { useHistory } from "react-router-dom";
 import HomeApp from './HomeApp';
 import AlertSuccess from './AlertSuccess';
-
+import Spinner from './Spinner';
 
 const validationSchema = Yup.object().shape({
     Nombre: Yup.string()
@@ -21,10 +21,9 @@ const validationSchema = Yup.object().shape({
 });
 
 export default function Pagar() {
-    const { success, error, is_logged, registroExitoso, pagarCurso } = useContext(store);
+    const { success, error, registroExitoso, pagarCurso } = useContext(store);
     const history = useHistory();
-
-
+    const [start, setStart] = useState(false)
 
     useEffect(() => {
         if (localStorage.getItem('is_logged') !== "on") {
@@ -51,7 +50,7 @@ export default function Pagar() {
             }
 
 
-
+            setStart(true)
            // let arrayCursos = pago;
            // arrayCursos.push(curso)
            await pagarCurso(curso)
@@ -71,27 +70,26 @@ export default function Pagar() {
 
     return (
         <HomeApp>
-
+           <Spinner start={start} setStart={setStart} formik={formik}/>
             <div style={{
-                display: "flexbox",
+              /*  display: "flexbox",
                 display: "-webkit-box",
                 display: "-moz-box",
                 display: "-ms-flexbox",
-                display: "-webkit-flex",
+                display: "-webkit-flex",*/
                 display: "flex",
-                flexDirection: "column",
+                direction: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                marginTop: "2rem",
-                padding: "1rem"
+                margin: "2rem",
             }}>
-                <div class="col-md-6 d-flex justify-content-center p-1">
+          
                     <Form onSubmit={formik.handleSubmit}>
                         <AlertSuccess success={success} />
                         <AlertError error={error} />
-                        <Row form>
+                      
                             <FormGroup>
-                                <Label for="Nombre">Nombre</Label>
+                                <Label for="Nombre">Curso</Label>
                                 <Input invalid={formik.errors.Nombre ? true : false} id="Nombre"
                                     name="Nombre"
                                     onChange={formik.handleChange}
@@ -116,8 +114,8 @@ export default function Pagar() {
                                     value={formik.values.Hora} />
                                 <FormFeedback invalid={"true"}>{formik.errors.Hora}</FormFeedback>
                             </FormGroup>
-                        </Row>
-                        <Row form>
+                    
+                     
                             <FormGroup>
                                 <Label for="Costo">Costo</Label>
                                 <Input invalid={formik.errors.Costo ? true : false} id="Costo"
@@ -126,12 +124,12 @@ export default function Pagar() {
                                     value={formik.values.Costo} />
                                 <FormFeedback invalid={"true"}>{formik.errors.Costo}</FormFeedback>
                             </FormGroup>
-                        </Row>
-                        <div >
-                            <Button style={{ margin:1}} type="submit">Confirmar</Button>                    
-                        </div>
+                     
+                        
+                            <Button type="submit">Confirmar</Button>                    
+                      
                     </Form>
-                </div>                
+                         
             </div>
 
         </HomeApp>

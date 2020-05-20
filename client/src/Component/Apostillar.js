@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useFormik } from 'formik';
+import formik, { useFormik } from 'formik';
 import { Button, Form, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 import * as Yup from 'yup';
 import { store } from '../context/ProductProvider';
@@ -7,7 +7,7 @@ import AlertError from './AlertError';
 import { useHistory } from "react-router-dom";
 import HomeApp from './HomeApp';
 import AlertSuccess from './AlertSuccess';
-
+import Spinner from './Spinner';
 
 const validationSchema = Yup.object().shape({
     //  Nombre: Yup.string()
@@ -23,7 +23,7 @@ const validationSchema = Yup.object().shape({
 
 export default function Apostillar() {
     const { success, agregarCertificado, error, is_logged, registroExitoso } = useContext(store);
-
+    const [start, setStart] = useState(false)
 
     const history = useHistory();
 
@@ -48,7 +48,7 @@ export default function Apostillar() {
             certificado.append('descripcion', values.Descripcion)
             certificado.append('address', localStorage.getItem('address'))
             certificado.append('privateKey', localStorage.getItem('password'))
-
+            setStart(true)
 
             await agregarCertificado(certificado);
 
@@ -63,7 +63,7 @@ export default function Apostillar() {
     });
     return (
         <HomeApp>
-
+            <Spinner start={start} setStart={setStart} formik={formik}/>
             <div style={{
                 display: "flex",
                 direction: "row",

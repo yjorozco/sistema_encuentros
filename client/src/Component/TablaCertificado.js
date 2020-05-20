@@ -12,7 +12,7 @@ export default function TablaCurso({data}) {
     const columns = React.useMemo(
         () => [
           {
-            Header: 'Cursos Registrados',
+            Header: 'Certificados Registrados',
             columns: [
 
               {

@@ -10,7 +10,7 @@ export default function TablaAlumno({data}) {
             columns: [
 
               {
-                Header: 'Nombre',
+                Header: 'Curso',
                 accessor: 'nombre',
               },
               {

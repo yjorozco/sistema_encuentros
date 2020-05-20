@@ -5,7 +5,8 @@ import * as Yup from 'yup';
 import { store } from '../context/ProductProvider';
 import AlertError from './AlertError';
 import { useHistory } from "react-router-dom";
-
+import logo from '../images/aeternity.png'
+import Spinner from './Spinner';
 
 const validationSchema = Yup.object().shape({
     address: Yup.string()
@@ -23,6 +24,7 @@ export default function Home() {
     const { is_logged, keypair, error, createWallet, auth } = useContext(store);
     const [toggle, setToggle] = useState(false)
     const history = useHistory();
+    const [ start, setStart ] = useState(false);
 
     useEffect(() => {
         if (localStorage.getItem('is_logged') !== "on") {
@@ -49,27 +51,61 @@ export default function Home() {
         },
         validationSchema,
         onSubmit: async (values) => {
-            console.log(values);
+            setStart(true);
             await auth(values.address, values.password);
 
 
         },
     });
     return (
+        <>
 
+        <Spinner start={start} setStart={setStart} formik={formik}/> 
+        
         <div className="login">
+        
             <section>
                 <div style={{
                     display: "flex",
                     direction: "row",
                     justifyContent: "center",
                     alignItems: "center",
-                    margin: "2rem"
+                    //margin: "2rem auto -1rem auto",
+                    padding: 0,
+                    position: "static"
                 }}>
+                    <img src={logo} height="50" width="50" />
+
+                </div>
+                <div style={{
+                    display: "flex",
+                    direction: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "0.5rem auto -5rem auto",
+                    padding: 0,
+                    position: "static"
+                }}>
+                    <img src={logo} height="80rem" width="140rem" alt="Sistema de Encuentros" />
+
+                </div>
+            </section>
+
+            <section>
+
+                <div style={{
+                    display: "flex",
+                    direction: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    margin: "1rem auto auto auto",
+                   // position: "static"
+                }}>
+            
 
                     <Form style={{ padding: "1rem", border: '2px solid #ccc', borderRadius: "4px", backgroundColor: "#f8f8f8" }} onSubmit={formik.handleSubmit}>
                         <AlertError error={error} />
-                        <Col md={12} sm={12}>
+                        
                             <FormGroup>
                                 <Label for="address">Address</Label>
                                 <Input invalid={formik.errors.address ? true : false} id="address"
@@ -78,8 +114,7 @@ export default function Home() {
                                     value={formik.values.address} />
                                 <FormFeedback invalid={"true"}>{formik.errors.address}</FormFeedback>
                             </FormGroup>
-                        </Col>
-                        <Col md={12} sm={12}>
+                      
                             <FormGroup>
                                 <Label for="password">Password</Label>
                                 <Input invalid={formik.errors.password ? true : false} id="password"
@@ -88,34 +123,35 @@ export default function Home() {
                                     value={formik.values.password} />
                                 <FormFeedback invalid={"true"}>{formik.errors.password}</FormFeedback>
                             </FormGroup>
-                        </Col>
+                   
                         <Button style={{ margin: "1rem" }} type="submit">Autenticar</Button>
                         <Button style={{ margin: "2rem" }} onClick={() => handleModal()}>Generar Clave</Button>
                     </Form>
                 </div>
             </section>
             <section >
-                {keypair.publicKey !== "" && <div className="table-responsive m-auto w-50 bg-white">
+                {keypair.publicKey !== "" && <div className=" pt-1 table-responsive m-auto w-70 text-white">
                     <Table bordered>
                         <tbody >
 
-                            <tr >
-                                <th >Address</th>
-                                <td>{keypair.publicKey}</td>
+                            <tr  >
+                                <th style={{ width: "1rem", color: "white" }}>Address</th>
+                                <td style={{ width: "5rem", color: "white" }}>{keypair.publicKey}</td>
                             </tr>
                             <tr >
-                                <th >Password</th>
-                                <td>{keypair.secretKey}</td>
+                                <th style={{ width: "1rem", color: "white" }} >Password</th>
+                                <td style={{ width: "5rem", color: "white" }}>{keypair.secretKey}</td>
                             </tr>
                             <tr >
-                                <th >Información</th>
-                                <td>Favor colocar dinero en la billetera en la siguiente direccion https://faucet.aepps.com/ </td>
+                                <th style={{ width: "1rem", color: "white" }} >Información</th>
+                                <td style={{ width: "5rem", color: "white" }}>Favor colocar dinero en la billetera en la siguiente direccion https://faucet.aepps.com/ </td>
                             </tr>
                         </tbody>
                     </Table>
                 </div>}
             </section>
         </div>
+        </>
 
     )
 }

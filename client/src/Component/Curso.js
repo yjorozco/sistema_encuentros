@@ -1,5 +1,5 @@
-import React, { useContext,  useEffect } from 'react';
-import { useFormik } from 'formik';
+import React, { useContext,  useEffect, useState } from 'react';
+import formik, { useFormik } from 'formik';
 import { Button, Form, FormGroup, Label, Input, FormFeedback } from 'reactstrap';
 import * as Yup from 'yup';
 import { store } from '../context/ProductProvider';
@@ -7,7 +7,7 @@ import AlertError from './AlertError';
 import { useHistory } from "react-router-dom";
 import HomeApp from './HomeApp';
 import AlertSuccess from './AlertSuccess';
-
+import Spinner from './Spinner';
 
 const validationSchema = Yup.object().shape({
     Nombre: Yup.string()
@@ -26,10 +26,14 @@ const validationSchema = Yup.object().shape({
 
 
 export default function Curso() {
-    const { success, agregarCurso, error, is_logged, registroExitoso } = useContext(store);
+    const { success, agregarCurso, error, registroExitoso } = useContext(store);
     const history = useHistory();
-    
+    const [ start, setStart ] = useState(false);
+  
+ 
 
+
+    
 
     useEffect(() => {
         if (localStorage.getItem('is_logged') !== "on") {
@@ -59,9 +63,9 @@ export default function Curso() {
             }
 
          
-           
+            setStart(true)
             await  agregarCurso(curso);
-
+          
             if(!error){
                 registroExitoso()
                 resetForm({})
@@ -72,7 +76,7 @@ export default function Curso() {
     });
     return (
         <HomeApp>
-
+            <Spinner start={start} setStart={setStart} formik={formik}/>
             <div style={{
                 display: "flex",
                 direction: "row",
@@ -138,7 +142,7 @@ export default function Curso() {
                         <FormFeedback invalid={"true"}>{formik.errors.Costo}</FormFeedback>
                     </FormGroup>
 
-                    <Button type="submit">Confirmar</Button>
+                    <Button type="submit" >Confirmar</Button>
                 </Form>
             </div>
 
